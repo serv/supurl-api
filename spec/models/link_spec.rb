@@ -15,4 +15,11 @@ RSpec.describe Link, :type => :model do
   it { should respond_to(:href) }
   it { should respond_to(:comment) }
 
+  it { should validate_presence_of(:title) }
+  it { should ensure_length_of(:title).is_at_most(256) }
+  it { should validate_presence_of(:href) }
+  it { should ensure_length_of(:href).is_at_most(256) }
+  it { should validate_presence_of(:comment) }
+  it { should ensure_length_of(:comment).is_at_most(1000) }
+
 end
