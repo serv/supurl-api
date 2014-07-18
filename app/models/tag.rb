@@ -1,5 +1,6 @@
 class Tag < ActiveRecord::Base
-  validates :title, presence: true, length: { max: 256 }
-  validates :href, presence: true, length: { max: 256 }
-  validates :comment, presence: true, length: { max: 1000 }
+  validates :display_name, presence: true
+  validates :display_name, length: { maximum: 100 }
+  validates :shortcut, presence: true
+  validates :shortcut, length: { maximum: 100 }
 end
