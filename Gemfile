@@ -20,6 +20,7 @@ group :development do
   gem "thin", "~> 1.6.2"
   gem 'pry', '~> 0.10.0'
   gem "better_errors", "~> 1.1.0"
+  gem 'faker', '~> 1.4.2'
 end
 
 group :test do

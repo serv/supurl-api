@@ -8,6 +8,11 @@ module Api
         render json: @link
       end
 
+      def index
+        @links = Link.all
+        render json: @links
+      end
+
       private
 
         def link_params
