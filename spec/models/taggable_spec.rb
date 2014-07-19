@@ -13,6 +13,9 @@ RSpec.describe Taggable, :type => :model do
   it { should respond_to(:link_id) }
   it { should respond_to(:tag_id) }
 
+  it { should belong_to(:tag) }
+  it { should belong_to(:link) }
+
   it { should validate_presence_of(:link_id) }
   it { should validate_presence_of(:tag_id) }
 

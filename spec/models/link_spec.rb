@@ -15,6 +15,9 @@ RSpec.describe Link, :type => :model do
   it { should respond_to(:href) }
   it { should respond_to(:comment) }
 
+  it { should have_many(:tags) }
+  it { should have_many(:taggables) }
+
   it { should validate_presence_of(:title) }
   it { should ensure_length_of(:title).is_at_most(256) }
   it { should validate_presence_of(:href) }

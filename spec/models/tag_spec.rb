@@ -13,6 +13,9 @@ RSpec.describe Tag, :type => :model do
   it { should respond_to(:display_name) }
   it { should respond_to(:shortcut) }
 
+  it { should have_many(:links) }
+  it { should have_many(:taggables) }
+
   it { should validate_presence_of(:display_name) }
   it { should ensure_length_of(:display_name).is_at_most(100) }
   it { should validate_presence_of(:shortcut) }
