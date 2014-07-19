@@ -8,9 +8,9 @@ module Api
 
       private
 
-      def link_params
-        params.require(:status).permit(:title, :href, :comment)
-      end
+        def link_params
+          params.require(:status).permit(:title, :href, :comment)
+        end
     end
   end
 end
