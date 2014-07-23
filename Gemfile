@@ -12,6 +12,11 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'spring',        group: :development
 
+# API
+gem 'grape', '~> 0.8.0'
+gem 'rack-cors', :require => 'rack/cors'
+
+
 group :development, :test do
   gem 'debugger', '~> 1.6.8'
 end
