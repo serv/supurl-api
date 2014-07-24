@@ -224,7 +224,7 @@ DEPENDENCIES
   json_spec (~> 1.1.2)
   pg
   pry (~> 0.10.0)
-  rack-cors
+  rack-cors (~> 0.2.9)
   rails (= 4.1.0)
   rspec-rails (~> 3.0.1)
   sass-rails (~> 4.0.3)
