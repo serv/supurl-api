@@ -14,8 +14,7 @@ gem 'spring',        group: :development
 
 # API
 gem 'grape', '~> 0.8.0'
-gem 'rack-cors', :require => 'rack/cors'
-
+gem 'rack-cors', '~> 0.2.9'
 
 group :development, :test do
   gem 'debugger', '~> 1.6.8'
