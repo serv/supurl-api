@@ -47,6 +47,14 @@ class Supurl::V0::LinksController < Grape::API
       })
     end
 
+    desc "Destroy: Delete a status"
+    params do
+      requires :id, type: Integer
+    end
+    delete ':id' do
+      link = Link.find(params[:id])
+      link.destroy
+    end
 
   end
 end
