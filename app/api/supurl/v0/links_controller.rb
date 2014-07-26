@@ -38,9 +38,9 @@ class Supurl::V0::LinksController < Grape::API
       requires :href,    type: String
       requires :comment, type: String
     end
-    put :id do
+    put ':id' do
       link = Link.find(params[:id])
-      Link.update!({
+      link.update!({
         title:   params[:title],
         href:    params[:href],
         comment: params[:comment]
