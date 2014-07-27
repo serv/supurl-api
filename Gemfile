@@ -12,7 +12,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'spring',        group: :development
 
-# API
+# API & CORS support
 gem 'grape', '~> 0.8.0'
 gem 'rack-cors', '~> 0.2.9'
 
@@ -33,6 +33,7 @@ group :test do
   gem 'shoulda-matchers', '~> 2.6.1'
   gem 'capybara', '~> 2.4.1'
   gem 'json_spec', '~> 1.1.2'
+  # gem 'rack-test', '~> 0.6.2'
 end
 
 group :production do
