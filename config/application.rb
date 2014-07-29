@@ -34,7 +34,8 @@ module SupurlApi
     # rack-cors config to allow OPTIONS method
     config.middleware.use Rack::Cors do
       allow do
-        origins '*'
+        # origins '*'
+        origins 'localhost:9000'
         resource '*', :headers => :any, :methods => [:get, :post, :put, :delete, :options]
       end
     end
