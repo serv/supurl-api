@@ -24,11 +24,30 @@ class Supurl::V0::LinksController < Grape::API
       requires :comment, type: String
     end
     post do
-      Link.create!({
+      raw_tags = params[:tags]
+      link = Link.create!({
         title:   params[:title],
         href:    params[:href],
         comment: params[:comment]
       })
+
+      raw_tags.each do |t|
+        tag = Tag.where(shortcut: t.downcase).first
+
+        unless tag
+          tag = Tag.create!({
+                  display_name: t,
+                  shortcut: t.downcase
+                })
+        end
+
+        taggable = Taggable.create({
+                     tag_id: tag.id,
+                     link_id: link.id
+                   })
+      end
+
+      link.save
     end
 
     desc "Update: Update a link"
