@@ -1,4 +1,6 @@
 class API < Grape::API
+  include Entities
+
   prefix 'api'
   format :json
   version 'v0', using: :path

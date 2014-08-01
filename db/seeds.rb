@@ -1,5 +1,5 @@
 # Create links
-100.times do |i|
+50.times do |i|
   link = Link.new(title: Faker::Lorem.sentence,
                   href: Faker::Internet.url,
                   comment: Faker::Lorem.paragraph)

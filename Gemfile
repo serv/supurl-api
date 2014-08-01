@@ -14,6 +14,7 @@ gem 'spring',        group: :development
 
 # API & CORS support
 gem 'grape', '~> 0.8.0'
+gem 'grape-entity', '~> 0.4.3'
 gem 'rack-cors', '~> 0.2.9'
 
 group :development, :test do

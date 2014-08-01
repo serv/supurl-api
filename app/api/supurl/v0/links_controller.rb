@@ -2,9 +2,13 @@ class Supurl::V0::LinksController < Grape::API
 
   namespace :links do
 
-    desc "Index: Return all links"
+    desc "Index: Return all links", {
+      params: API::Entities::LinkEntity.documentation
+    }
     get do
-      Link.all
+      links = Link.includes(:taggables).all
+      present links, with: API::Entities::LinkEntity
+
     end
 
     desc "Show: Return a link based on id"
