@@ -9,4 +9,9 @@ module Entities
       end
     end
   end
+
+  class TagEntity < Grape::Entity
+    expose :display_name
+    expose :shortcut
+  end
 end

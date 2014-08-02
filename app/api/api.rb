@@ -6,4 +6,5 @@ class API < Grape::API
   version 'v0', using: :path
 
   mount Supurl::V0::LinksController
+  mount Supurl::V0::TagsController
 end

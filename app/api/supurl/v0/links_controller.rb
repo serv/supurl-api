@@ -8,7 +8,6 @@ class Supurl::V0::LinksController < Grape::API
     get do
       links = Link.includes(:taggables).all
       present links, with: API::Entities::LinkEntity
-
     end
 
     desc "Show: Return a link based on id"
