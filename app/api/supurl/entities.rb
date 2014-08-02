@@ -5,7 +5,7 @@ module Entities
     expose :href
     expose :taggables do |link, options|
       link.taggables.map do |taggable|
-        Tag.find(taggable.id)
+        Tag.find(taggable.tag_id)
       end
     end
   end
