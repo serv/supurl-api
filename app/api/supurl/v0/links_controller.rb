@@ -10,13 +10,16 @@ class Supurl::V0::LinksController < Grape::API
       present links, with: API::Entities::LinkEntity
     end
 
-    desc "Show: Return a link based on id"
+    desc "Show: Return a link based on id", {
+      params: API::Entities::LinkEntity.documentation
+    }
     params do
       requires :id, type: Integer, desc: "Status id."
     end
     route_param :id do
       get do
-        Link.find(params[:id])
+        link = Link.find(params[:id])
+        present link, with: API::Entities::LinkEntity
       end
     end
 
