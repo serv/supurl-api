@@ -1,5 +1,6 @@
 module Entities
   class LinkEntity < Grape::Entity
+    expose :id
     expose :title
     expose :comment
     expose :href
@@ -11,6 +12,7 @@ module Entities
   end
 
   class TagEntity < Grape::Entity
+    expose :id
     expose :display_name
     expose :shortcut
   end
