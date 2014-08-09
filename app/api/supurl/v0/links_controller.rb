@@ -14,7 +14,7 @@ class Supurl::V0::LinksController < Grape::API
       params: API::Entities::LinkEntity.documentation
     }
     params do
-      requires :id, type: Integer, desc: "Status id."
+      requires :id, type: Integer, desc: "Link id."
     end
     route_param :id do
       get do
