@@ -15,6 +15,9 @@ module Entities
     expose :id
     expose :display_name
     expose :shortcut
+    expose :links do |tag, options|
+      tag.links
+    end
   end
 
   class SearchEntity < Grape::Entity

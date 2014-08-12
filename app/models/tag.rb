@@ -1,4 +1,6 @@
 class Tag < ActiveRecord::Base
+  attr_accessor :links_collection
+
   has_many :links, through: :taggables
   has_many :taggables
 
@@ -9,5 +11,9 @@ class Tag < ActiveRecord::Base
 
   def self.search_by_display_name(name)
     Tag.where('display_name ~* ?', name)
+  end
+
+  def set_links
+    links_collection = links
   end
 end
