@@ -12,6 +12,9 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'spring',        group: :development
 
+# User authentication
+gem 'bcrypt', '~> 3.1.7'
+
 # API & CORS support
 gem 'grape', '~> 0.8.0'
 gem 'grape-entity', '~> 0.4.3'
