@@ -11,5 +11,4 @@ class User < ActiveRecord::Base
   validates :email,    uniqueness: true
 
   validates_confirmation_of :password, if: lambda { |m| m.password.present? }
-
 end
