@@ -10,15 +10,12 @@ class Supurl::V0::UsersController < Grape::API
       requires :password_confirmation, type: String
     end
     post do
-      @user = User.new({
+      user = User.create!({
         username:              params[:username],
         email:                 params[:email],
         password:              params[:password],
         password_confirmation: params[:password_confirmation]
       })
-      if @user.save
-      else
-      end
     end
 
   end
