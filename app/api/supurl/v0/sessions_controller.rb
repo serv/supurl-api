@@ -18,7 +18,9 @@ class Supurl::V0::SessionsController < Grape::API
       end
 
       if user.authenticate(params[:password])
-        status 200
+        remember_token = User.new_remember_token
+        user.update_attribute(:remember_token, User.digest(remember_token))
+        { cookies: { remember_token: remember_token } }
       else
         status 500
       end
