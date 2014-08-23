@@ -15,4 +15,8 @@ RSpec.describe Client, :type => :model do
   it { should respond_to(:name) }
   it { should respond_to(:user_id) }
 
+  it { should belong_to(:user) }
+  it { should have_many(:access_codes) }
+  it { should have_many(:refresh_codes) }
+  it { should have_many(:authorization_codes) }
 end

@@ -12,4 +12,7 @@ RSpec.describe AccessCode, :type => :model do
   it { should respond_to(:expires_at) }
   it { should respond_to(:client_id) }
 
+  it { should belong_to(:client) }
+  it { should belong_to(:refresh_code) }
+
 end

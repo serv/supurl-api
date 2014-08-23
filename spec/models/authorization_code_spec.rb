@@ -12,4 +12,6 @@ RSpec.describe AuthorizationCode, :type => :model do
   it { should respond_to(:expires_at) }
   it { should respond_to(:client_id) }
 
+  it { should belong_to(:client) }
+
 end
