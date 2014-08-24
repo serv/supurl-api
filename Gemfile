@@ -26,12 +26,11 @@ gem 'grape-entity', '~> 0.4.3'
 gem 'rack-cors', '~> 0.2.9'
 
 group :development, :test do
-  gem 'debugger', '~> 1.6.8'
+  gem 'pry', '~> 0.10.0'
 end
 
 group :development do
   gem "thin", "~> 1.6.2"
-  gem 'pry', '~> 0.10.0'
   gem "better_errors", "~> 1.1.0"
   gem 'faker', '~> 1.4.2'
 end
