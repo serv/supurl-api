@@ -15,6 +15,11 @@ gem 'spring',        group: :development
 # User authentication
 gem 'bcrypt', '~> 3.1.7'
 
+# View
+gem 'haml-rails', '~> 0.5.3'
+gem 'bootstrap-sass', '~> 3.2.0.1'
+gem 'autoprefixer-rails', '~> 3.0.0.20140821'
+
 # API & CORS support
 gem 'grape', '~> 0.8.0'
 gem 'grape-entity', '~> 0.4.3'

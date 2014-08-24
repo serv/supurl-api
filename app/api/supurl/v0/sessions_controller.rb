@@ -20,7 +20,7 @@ class Supurl::V0::SessionsController < Grape::API
       end
 
       if user.authenticate(params[:password])
-        sign_in user
+
       else
         status 500
       end
