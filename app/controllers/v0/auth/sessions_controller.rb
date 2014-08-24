@@ -12,15 +12,18 @@ class V0::Auth::SessionsController < ApplicationController
     elsif email_or_username == :username
       @user = User.find_by(username: session_params[:email_username])
     end
-    pry
+
     if @user.authenticate(session_params[:password])
+      # TODO: Must be able to create client
+      @client = Client.find_by(api_key: session_params[:client_api_key])
+      @authorization_code = @client.authorization_codes.create
+
       # TODO: Must check for redirect URL
       # TODO: Must check for scope of authorization askin for permission
       redirect_url = website_url
                    + client_api_key
                    + '?authorization_code='
-                   # TODO: create authorization code
-                   + 'place_for_authorization'
+                   + @authorization_code.token
     else
 
     end
@@ -29,7 +32,10 @@ class V0::Auth::SessionsController < ApplicationController
   private
 
     def session_params
-      params.require(:session).permit(:email_username, :password)
+      params.require(:session).permit(:email_username,
+                                      :password,
+                                      :client_api_key,
+                                      :client_redirect_uri)
     end
 
     def is_email_or_username(email_or_username)
