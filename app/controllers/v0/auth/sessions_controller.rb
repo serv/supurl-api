@@ -14,18 +14,28 @@ class V0::Auth::SessionsController < ApplicationController
     end
 
     if @user.authenticate(session_params[:password])
+
       # TODO: Must be able to create client
       @client = Client.find_by(api_key: session_params[:client_api_key])
-      @authorization_code = @client.authorization_codes.create
+      if session_params[:client_redirect_uri] == @client.redirect_uri
+        if session_params[:client_api_key] == @client.api_key
+          @authorization_code = @client.authorization_codes.create
 
-      # TODO: Must check for redirect URL
-      # TODO: Must check for scope of authorization askin for permission
-      redirect_url = website_url
-                   + client_api_key
-                   + '?authorization_code='
-                   + @authorization_code.token
+          # TODO: Must check for scope of authorization askin for permission
+          redirect_url = website_url
+                       + client_api_key
+                       + '?authorization_code='
+                       + @authorization_code.token
+        else
+
+        end
+
+      else
+
+      end
+
     else
-
+      render 'sign_in'
     end
   end
 
