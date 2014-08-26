@@ -13,30 +13,35 @@ class V0::Auth::SessionsController < ApplicationController
       @user = User.find_by(username: session_params[:email_username])
     end
 
-    if @user.authenticate(session_params[:password])
+    if @user
+      if @user.authenticate(session_params[:password])
 
-      # TODO: Must be able to create client
-      @client = Client.find_by(api_key: session_params[:client_api_key])
-      if session_params[:client_redirect_uri] == @client.redirect_uri
-        if session_params[:client_api_key] == @client.api_key
-          @authorization_code = @client.authorization_codes.create
+        # TODO: Must be able to create client
+        @client = Client.find_by(api_key: session_params[:client_api_key])
+        if session_params[:client_redirect_uri] == @client.redirect_uri
+          if session_params[:client_api_key] == @client.api_key
+            @authorization_code = @client.authorization_codes.create
 
-          # TODO: Must check for scope of authorization askin for permission
-          redirect_url = website_url
-                       + client_api_key
-                       + '?authorization_code='
-                       + @authorization_code.token
+            # TODO: Must check for scope of authorization askin for permission
+            redirect_url = website_url
+                         + client_api_key
+                         + '?authorization_code='
+                         + @authorization_code.token
+
+          else
+            flash[:error] = 'Client redirect URI is incorrect.'
+          end
         else
-
+          flash[:error] = 'Client API key is incorrect.'
         end
-
       else
-
+        flash[:error] = 'Username or password is invalid.'
       end
-
     else
-      render 'sign_in'
+      flash[:error] = 'Username or password is invalid.'
     end
+
+    render 'sign_in'
   end
 
   private

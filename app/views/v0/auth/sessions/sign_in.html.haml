@@ -2,6 +2,14 @@
   .col-md-4.col-md-offset-4
     %h2 Please sign in
 
+    - if flash[:error]
+      .alert.alert-warning.alert-dismissible{role: 'alert'}
+        %button.close{type: 'button', data: {dismiss: 'alert'}}
+          %span{aria: {hidden: 'true'}} &times
+          %span.sr-only Close
+        %strong Warning
+        = flash[:error]
+
     = form_for(:session, url: v0_auth_sessions_path) do |f|
       .form-group
         = f.text_field :email_username, placeholder: 'Email or username', class: 'form-control'
