@@ -49,3 +49,5 @@ client = Client.create(api_key: 'key',
                        redirect_uri: 'auth/supurl',
                        name: 'Supurl',
                        user_id: admin.id)
+client.update_attribute('api_key', 'key')
+client.update_attribute('api_secret', 'secret')
