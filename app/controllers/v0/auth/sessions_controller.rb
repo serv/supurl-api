@@ -29,19 +29,21 @@ class V0::Auth::SessionsController < ApplicationController
 
     if @user
       if @user.authenticate(session_params[:password])
-
-        # TODO: Must be able to create client
         @client = Client.find_by(api_key: session_params[:client_api_key])
         if session_params[:client_redirect_uri] == @client.redirect_uri
           if session_params[:client_api_key] == @client.api_key
             @authorization_code = @client.authorization_codes.create
 
-            # TODO: Must check for scope of authorization askin for permission
-            redirect_url = website_url
-                         + client_api_key
-                         + '?authorization_code='
-                         + @authorization_code.token
+            full_url = []
+            full_url << @client.website_url
+            full_url << '/'
+            full_url << @client.redirect_uri
+            full_url << '?authorization_code='
+            full_url << @authorization_code.token
 
+            redirect_to full_url.join
+
+            return true
           else
             flash[:error] = 'Client redirect URI is incorrect.'
           end
