@@ -6,7 +6,12 @@ class V0::Auth::SessionsController < ApplicationController
     @client = Client.find_by(api_key: @client_api_key)
 
     if @client
-      render 'sign_in'
+      if @client.redirect_uri == params[:redirect_uri]
+        render 'sign_in'
+      else
+        @invalid_api_key = true
+        flash[:error] = 'Client redirect URI is incorrect.'
+      end
     else
       @invalid_api_key = true
       flash[:error] = 'Client API key is incorrect.'
