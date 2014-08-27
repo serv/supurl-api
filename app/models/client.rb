@@ -9,7 +9,7 @@ class Client < ActiveRecord::Base
   protected
 
     def setup
-      self.api_key = SecureRandom.base64(16)
-      self.api_secret = SecureRandom.base64(64)
+      self.api_key = SecureRandom.base64(64)
+      self.api_secret = SecureRandom.base64(16)
     end
 end
