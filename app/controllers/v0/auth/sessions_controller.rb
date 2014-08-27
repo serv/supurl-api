@@ -2,6 +2,15 @@ class V0::Auth::SessionsController < ApplicationController
   def sign_in
     @client_api_key = params[:api_key]
     @client_redirect_uri = params[:redirect_uri]
+
+    @client = Client.find_by(api_key: @client_api_key)
+
+    if @client
+      render 'sign_in'
+    else
+      @invalid_api_key = true
+      flash[:error] = 'Client API key is incorrect.'
+    end
   end
 
   def create
