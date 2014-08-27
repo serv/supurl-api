@@ -41,7 +41,10 @@ class V0::Auth::SessionsController < ApplicationController
       flash[:error] = 'Username or password is invalid.'
     end
 
-    render 'sign_in'
+    redirect_to v0_auth_sign_in_path(
+      api_key: session_params[:client_api_key],
+      redirect_uri: session_params[:client_redirect_uri]
+    )
   end
 
   private
