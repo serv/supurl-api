@@ -63,6 +63,9 @@ class V0::Auth::SessionsController < ApplicationController
     )
   end
 
+  def authorization
+  end
+
   private
 
     def session_params
