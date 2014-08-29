@@ -1,9 +1,18 @@
 .row.authorization.session-main
   .col-md-4.col-md-offset-4
-    %h2 Username, appname would like to connect to your account.
-    %p appname by Creator would like to use the ability to ability
+    %h2
+      = @revealed_hash[:username]
+      ,
+      = @revealed_hash[:client_name]
+      would like to connect to your account.
+    %p
+      = @revealed_hash[:client_name]
+      by Creator would like to use the ability to ability
 
-    %h3 Allow appname access?
+    %h3
+      Allow
+      = @revealed_hash[:client_name]
+      access?
 
 .row.authorization.session-footer
   .col-md-4.col-md-offset-4.session-footer-logo

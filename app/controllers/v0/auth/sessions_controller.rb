@@ -32,16 +32,18 @@ class V0::Auth::SessionsController < ApplicationController
         @client = Client.find_by(api_key: session_params[:client_api_key])
         if session_params[:client_redirect_uri] == @client.redirect_uri
           if session_params[:client_api_key] == @client.api_key
-            @authorization_code = @client.authorization_codes.create
+            authorization_code = @client.authorization_codes.create(
+              redirect_uri: @client.website_url + '/' + @client.redirect_uri
+            )
 
-            full_url = []
-            full_url << @client.website_url
-            full_url << '/'
-            full_url << @client.redirect_uri
-            full_url << '?authorization_code='
-            full_url << @authorization_code.token
+            # need developer info box for dev name
+            @revealed_hash = {
+              username: @user.username,
+              client_name: @client.name
 
-            redirect_to full_url.join
+            }
+
+            render 'authorization'
 
             return true
           else
@@ -61,9 +63,6 @@ class V0::Auth::SessionsController < ApplicationController
       api_key: session_params[:client_api_key],
       redirect_uri: session_params[:client_redirect_uri]
     )
-  end
-
-  def authorization
   end
 
   private
