@@ -32,7 +32,8 @@ class V0::Auth::SessionsController < ApplicationController
         @client = Client.find_by(api_key: session_params[:client_api_key])
         if session_params[:client_redirect_uri] == @client.redirect_uri
           if session_params[:client_api_key] == @client.api_key
-            authorization_code = @client.authorization_codes.create(
+
+            @authorization_code = @client.authorization_codes.build(
               redirect_uri: @client.website_url + '/' + @client.redirect_uri
             )
 
@@ -65,6 +66,20 @@ class V0::Auth::SessionsController < ApplicationController
     )
   end
 
+  def authorize
+    client = Client.find(authorization_code_params[:client_id])
+    @authorization_code = client.authorization_codes.create(redirect_uri: client.redirect_uri)
+
+    redirect_url = []
+    redirect_url << client.website_url
+    redirect_url << '/'
+    redirect_url << @authorization_code.redirect_uri
+    redirect_url << '?token='
+    redirect_url << @authorization_code.token
+
+    redirect_to redirect_url.join
+  end
+
   private
 
     def session_params
@@ -72,6 +87,11 @@ class V0::Auth::SessionsController < ApplicationController
                                       :password,
                                       :client_api_key,
                                       :client_redirect_uri)
+    end
+
+    def authorization_code_params
+      params.require(:authorization_code).permit(:redirect_uri,
+                                                 :client_id)
     end
 
     def is_email_or_username(email_or_username)
