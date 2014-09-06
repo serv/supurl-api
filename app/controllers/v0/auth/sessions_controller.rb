@@ -2,6 +2,7 @@ class V0::Auth::SessionsController < ApplicationController
   def sign_in
     @client_api_key = params[:api_key]
     @client_redirect_uri = params[:redirect_uri]
+    @method = params[:method]
 
     @client = Client.find_by(api_key: @client_api_key)
 
@@ -33,16 +34,21 @@ class V0::Auth::SessionsController < ApplicationController
         if session_params[:client_redirect_uri] == @client.redirect_uri
           if session_params[:client_api_key] == @client.api_key
 
-            @authorization_code = @client.authorization_codes.build(
-              redirect_uri: @client.website_url + '/' + @client.redirect_uri
-            )
-
             # need developer info box for dev name
             @revealed_hash = {
               username: @user.username,
               client_name: @client.name
-
             }
+
+            if session_params[:method] == 'implicit'
+              @revealed_hash[:method] = 'implicit'
+              @access_code = @client.access_codes.build
+            elsif session_params[:method] == 'authorization'
+              @revealed_hash[:method] = 'authorization'
+              @authorization_code = @client.authorization_codes.build(
+                redirect_uri: @client.website_url + '/' + @client.redirect_uri
+              )
+            end
 
             render 'authorization'
 
@@ -80,18 +86,41 @@ class V0::Auth::SessionsController < ApplicationController
     redirect_to redirect_url.join
   end
 
+  def implicit
+    client = Client.find(access_code_params[:client_id])
+    @refresh_code = client.refresh_codes.create
+    @access_code = client.access_codes.create(refresh_code_id: @refresh_code.id)
+
+    # TODO: need to set up access token and refresh token
+    redirect_url = []
+    redirect_url << client.website_url
+    redirect_url << '/'
+    redirect_url << client.redirect_uri
+    redirect_url << '?access_code='
+    redirect_url << @access_code.token
+    redirect_url << '&refresh_code='
+    redirect_url << @refresh_code.token
+
+    redirect_to redirect_url.join
+  end
+
   private
 
     def session_params
       params.require(:session).permit(:email_username,
                                       :password,
                                       :client_api_key,
-                                      :client_redirect_uri)
+                                      :client_redirect_uri,
+                                      :method)
     end
 
     def authorization_code_params
       params.require(:authorization_code).permit(:redirect_uri,
                                                  :client_id)
+    end
+
+    def access_code_params
+      params.require(:access_code).permit(:client_id)
     end
 
     def is_email_or_username(email_or_username)

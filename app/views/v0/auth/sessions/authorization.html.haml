@@ -14,10 +14,15 @@
       = @revealed_hash[:client_name]
       access?
 
-    = form_for @authorization_code, url: v0_auth_authorize_path, method: :POST do |f|
-      = f.hidden_field :redirect_uri, value: @authorization_code.redirect_uri
-      = f.hidden_field :client_id, value: @authorization_code.client_id
-      = f.submit 'Accept', class: 'btn btn-primary'
+    - if @revealed_hash[:method] == 'implicit'
+      = form_for @access_code, url: v0_auth_implicit_path, method: :POST do |f|
+        = f.hidden_field :client_id, value: @access_code.client_id
+        = f.submit 'Accept', class: 'btn btn-primary'
+    - elsif @revealed_hash[:method] == 'authorization'
+      = form_for @authorization_code, url: v0_auth_authorize_path, method: :POST do |f|
+        = f.hidden_field :redirect_uri, value: @authorization_code.redirect_uri
+        = f.hidden_field :client_id, value: @authorization_code.client_id
+        = f.submit 'Accept', class: 'btn btn-primary'
 
 .row.authorization.session-footer
   .col-md-4.col-md-offset-4.session-footer-logo
