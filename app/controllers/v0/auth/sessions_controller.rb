@@ -91,7 +91,6 @@ class V0::Auth::SessionsController < ApplicationController
     @refresh_code = client.refresh_codes.create
     @access_code = client.access_codes.create(refresh_code_id: @refresh_code.id)
 
-    # TODO: need to set up access token and refresh token
     redirect_url = []
     redirect_url << client.website_url
     redirect_url << '/'
