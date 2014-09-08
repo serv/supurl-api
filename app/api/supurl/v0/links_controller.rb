@@ -1,13 +1,33 @@
 class Supurl::V0::LinksController < Grape::API
 
-  namespace :links do
+  helpers do
+    def signed_in?(params)
+      if params[:access_code].size > 0 && params[:api_key].size > 0
+        access_code = params[:access_code]
+        api_key = params[:api_key]
+        client = Client.find_by(api_key: api_key)
+        if client
+          puts client.correct_access_code?(access_code)
+          client.correct_access_code?(access_code)
+        else
+          false
+        end
+      else
+        false
+      end
+    end
+  end
 
+  namespace :links do
     desc "Index: Return all links", {
       params: API::Entities::LinkEntity.documentation
     }
     get do
-      links = Link.includes(:taggables).all
-      present links, with: API::Entities::LinkEntity
+      if signed_in?(params)
+        links = Link.includes(:taggables).all
+        present links, with: API::Entities::LinkEntity
+      else
+      end
     end
 
     desc "Show: Return a link based on id", {
