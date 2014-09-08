@@ -6,6 +6,13 @@ class Client < ActiveRecord::Base
 
   before_validation :setup
 
+  def correct_access_code?(token)
+    access_code = AccessCode.last
+    puts access_code.token
+    puts token
+    access_code.token == token
+  end
+
   protected
 
     def setup

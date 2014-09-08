@@ -45,8 +45,8 @@ admin = User.create(username: admin_username,
 
 client = Client.create(api_key: 'key',
                        api_secret: 'secret',
-                       website_url: 'http://localhost:3000',
-                       redirect_uri: 'auth/supurl',
+                       website_url: 'http://localhost:9000',
+                       redirect_uri: '#/auth/callback',
                        name: 'Supurl',
                        user_id: admin.id)
 client.update_attribute('api_key', 'key')

@@ -1,4 +1,4 @@
-.row.sign-in-main
+.row.sign-in.session-main
   .col-md-4.col-md-offset-4
     %h2 Please sign in
 
@@ -16,10 +16,11 @@
       .form-group
         = f.password_field :password, placeholder: 'Password', class: 'form-control', disabled: @invalid_api_key
       -# TODO: remember me checkbox
-      = f.hidden_field :client_api_key, :value => @client_api_key
-      = f.hidden_field :client_redirect_uri, :value => @client_redirect_uri
+      = f.hidden_field :client_api_key, value: @client_api_key
+      = f.hidden_field :client_redirect_uri, value: @client_redirect_uri
+      = f.hidden_field :method, value: @method
       = f.submit "Sign in", class: 'btn btn-primary', disabled: @invalid_api_key
 .row.sign-in-footer
-  .col-md-4.col-md-offset-4.sign-in-footer-logo
+  .col-md-4.col-md-offset-4.session-footer-logo
     %p.text-center
       = link_to 'Supurl', '/'
