@@ -7,7 +7,6 @@ class Supurl::V0::LinksController < Grape::API
         api_key = params[:api_key]
         client = Client.find_by(api_key: api_key)
         if client
-          puts client.correct_access_code?(access_code)
           client.correct_access_code?(access_code)
         else
           false
