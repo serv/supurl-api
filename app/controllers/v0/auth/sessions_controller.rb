@@ -30,6 +30,7 @@ class V0::Auth::SessionsController < ApplicationController
 
     if @user
       if @user.authenticate(session_params[:password])
+        session[:current_user_id] = @user.id
         @client = Client.find_by(api_key: session_params[:client_api_key])
         if session_params[:client_redirect_uri] == @client.redirect_uri
           if session_params[:client_api_key] == @client.api_key
@@ -88,8 +89,14 @@ class V0::Auth::SessionsController < ApplicationController
 
   def implicit
     client = Client.find(access_code_params[:client_id])
-    @refresh_code = client.refresh_codes.create
-    @access_code = client.access_codes.create(refresh_code_id: @refresh_code.id)
+    @refresh_code = client.refresh_codes.create(user_id: current_user.id)
+    @access_code = client.access_codes.create(refresh_code_id: @refresh_code.id,
+                                              user_id: current_user.id)
+    current_user.assign_attributes({
+      refresh_code_id: @refresh_code.id,
+      access_code_id: @access_code.id
+    })
+    current_user.save(validate: false)
 
     redirect_url = []
     redirect_url << client.website_url
@@ -128,5 +135,10 @@ class V0::Auth::SessionsController < ApplicationController
       else
         :username
       end
+    end
+
+    def current_user
+      @_current_user ||= session[:current_user_id] &&
+                         User.find_by(id: session[:current_user_id])
     end
 end
