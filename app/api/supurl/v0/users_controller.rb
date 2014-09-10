@@ -18,6 +18,18 @@ class Supurl::V0::UsersController < Grape::API
       })
     end
 
+    desc 'get current_user'
+    params do
+      requires :access_code_token, type: String
+    end
+    route_param :access_code_token do
+      get :current_user_via_access_code do
+        access_code = AccessCode.find_by(token: params[:access_code_token])
+        user = User.find(access_code.user_id)
+        present user, with: API::Entities::UserEntity
+      end
+    end
+
   end
 
 end

@@ -28,4 +28,10 @@ module Entities
       search.links
     end
   end
+
+  class UserEntity < Grape::Entity
+    expose :id
+    expose :email
+    expose :username
+  end
 end
