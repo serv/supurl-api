@@ -19,6 +19,9 @@ class V0::Auth::SessionsController < ApplicationController
     end
   end
 
+  def sign_up
+  end
+
   def create
     email_or_username = is_email_or_username(session_params[:email_username])
 
