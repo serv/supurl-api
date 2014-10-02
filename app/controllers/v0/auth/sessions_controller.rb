@@ -20,6 +20,7 @@ class V0::Auth::SessionsController < ApplicationController
   end
 
   def sign_up
+    @user = User.new
   end
 
   def create

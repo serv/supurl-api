@@ -8,6 +8,8 @@ Rails.application.routes.draw do
       post '/authorize', to: 'sessions#authorize'
       post '/implicit', to: 'sessions#implicit'
       resources :sessions, only: [:create]
+      resources :users, only: [:create]
     end
+
   end
 end
