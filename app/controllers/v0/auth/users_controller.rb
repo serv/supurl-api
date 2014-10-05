@@ -20,6 +20,13 @@ class V0::Auth::UsersController < ApplicationController
           @access_code = @client.access_codes.build
           render 'v0/auth/sessions/authorization'
           return true
+        else
+          @revealed_hash = {
+            api_key: @client_api_key,
+            redirect_uri: @client_redirect_uri
+          }
+          do_not_redirect = true
+          render 'v0/auth/sessions/sign_up'
         end
       else
         flash[:error] = 'Client API key is incorrect.'
@@ -28,10 +35,12 @@ class V0::Auth::UsersController < ApplicationController
       flash[:error] = 'Client redirect URI is incorrect.'
     end
 
-    redirect_to v0_auth_sign_up_path(
-      api_key: @client_api_key,
-      redirect_uri: @client_redirect_uri
-    )
+    if !do_not_redirect
+      redirect_to v0_auth_sign_up_path(
+        api_key: @client_api_key,
+        redirect_uri: @client_redirect_uri
+      )
+    end
   end
 
   private

@@ -9,6 +9,16 @@
           %span.sr-only Close
         %strong Warning
         = flash[:error]
+    - if !@user.errors.messages.empty?
+      .alert.alert-warning.alert-dismissible{role: 'alert'}
+        %button.close{type: 'button', data: {dismiss: 'alert'}}
+          %span{aria: {hidden: 'true'}} &times
+          %span.sr-only Close
+        - @user.errors.each do |key, value|
+          %p
+            %strong Warning
+            = key
+            = value
 
     = form_for(:user, url: v0_auth_users_path) do |f|
       .form-group
@@ -20,9 +30,15 @@
       .form-group
         = f.password_field :password_confirmation, placeholder: 'Password', class: 'form-control'
 
-      = f.hidden_field :client_api_key, value: @client_api_key
-      = f.hidden_field :client_redirect_uri, value: @client_redirect_uri
-      = f.hidden_field :method, value: @method
+      - if @revealed_hash
+        = f.hidden_field :client_api_key, value: @revealed_hash[:api_key]
+        = f.hidden_field :client_redirect_uri, value: @revealed_hash[:redirect_uri]
+      - else
+        = f.hidden_field :client_api_key, value: @client_api_key
+        = f.hidden_field :client_redirect_uri, value: @client_redirect_uri
+
+      = f.hidden_field :method, value: 'implicit'
+
       = f.submit "Sign up", class: 'btn btn-primary', disabled: @invalid_api_key
 
 .row
