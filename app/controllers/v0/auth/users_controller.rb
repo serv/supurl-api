@@ -1,9 +1,11 @@
 class V0::Auth::UsersController < ApplicationController
   def create
     @client = Client.find_by(api_key: params[:user][:client_api_key])
+    @client_redirect_uri = params[:user][:client_redirect_uri]
+    @client_api_key = params[:user][:client_api_key]
 
-    if params[:user][:client_redirect_uri] == @client.redirect_uri
-      if params[:user][:client_api_key] == @client.api_key
+    if @client_redirect_uri == @client.redirect_uri
+      if @client_api_key == @client.api_key
         @user = User.new(user_params)
 
         if @user.save
@@ -18,8 +20,6 @@ class V0::Auth::UsersController < ApplicationController
           @access_code = @client.access_codes.build
           render 'v0/auth/sessions/authorization'
           return true
-        else
-          render 'v0/auth/sessions/sign_up'
         end
       else
         flash[:error] = 'Client API key is incorrect.'
@@ -28,6 +28,10 @@ class V0::Auth::UsersController < ApplicationController
       flash[:error] = 'Client redirect URI is incorrect.'
     end
 
+    redirect_to v0_auth_sign_up_path(
+      api_key: @client_api_key,
+      redirect_uri: @client_redirect_uri
+    )
   end
 
   private
