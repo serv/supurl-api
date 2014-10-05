@@ -7,7 +7,17 @@ class V0::Auth::UsersController < ApplicationController
         @user = User.new(user_params)
 
         if @user.save
+          session[:current_user_id] = @user.id
 
+          @revealed_hash = {
+            username: @user.username,
+            client_name: @client.name,
+            method: 'implicit'
+          }
+
+          @access_code = @client.access_codes.build
+          render 'v0/auth/sessions/authorization'
+          return true
         else
           render 'v0/auth/sessions/sign_up'
         end
