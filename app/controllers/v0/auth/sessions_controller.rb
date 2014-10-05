@@ -21,6 +21,8 @@ class V0::Auth::SessionsController < ApplicationController
 
   def sign_up
     @user = User.new
+    @client_api_key = params[:api_key]
+    @client_redirect_uri = params[:redirect_uri]
   end
 
   def create
