@@ -75,7 +75,8 @@ class V0::Auth::SessionsController < ApplicationController
 
     redirect_to v0_auth_sign_in_path(
       api_key: session_params[:client_api_key],
-      redirect_uri: session_params[:client_redirect_uri]
+      redirect_uri: session_params[:client_redirect_uri],
+      method: session_params[:method]
     )
   end
 
