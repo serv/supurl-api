@@ -1,19 +1,17 @@
 class Supurl::V0::LinksController < Grape::API
 
   helpers do
-    def signed_in?(params)
-      if params[:access_code].size > 0 && params[:api_key].size > 0
-        access_code = params[:access_code]
-        api_key = params[:api_key]
-        client = Client.find_by(api_key: api_key)
-        if client
-          client.correct_access_code?(access_code)
-        else
-          false
-        end
-      else
-        false
-      end
+    def signed_in?
+      current_user
+    end
+
+    def current_user
+      access_code = AccessCode.find_by_token(token)
+      user = User.find(access_code.user_id)
+    end
+
+    def token
+      request.headers['Token']
     end
   end
 
@@ -22,7 +20,7 @@ class Supurl::V0::LinksController < Grape::API
       params: API::Entities::LinkEntity.documentation
     }
     get do
-      if signed_in?(params)
+      if signed_in?
         links = Link.includes(:taggables).all
         present links, with: API::Entities::LinkEntity
       else
@@ -83,12 +81,21 @@ class Supurl::V0::LinksController < Grape::API
       requires :comment, type: String
     end
     put ':id' do
-      link = Link.find(params[:id])
-      link.update!({
-        title:   params[:title],
-        href:    params[:href],
-        comment: params[:comment]
-      })
+      if signed_in?
+        link = Link.find(params[:id])
+
+        link.update!({
+          title:   params[:title],
+          href:    params[:href],
+          comment: params[:comment]
+        })
+
+        link.update_tags({
+          current_user: current_user,
+          params: params
+        })
+      else
+      end
     end
 
     desc "Destroy: Delete a status"
