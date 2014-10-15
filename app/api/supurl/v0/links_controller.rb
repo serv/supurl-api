@@ -35,8 +35,11 @@ class Supurl::V0::LinksController < Grape::API
     end
     route_param :id do
       get do
-        link = Link.find(params[:id])
-        present link, with: API::Entities::LinkEntity
+        if signed_in?
+          link = Link.find(params[:id])
+          present link, with: API::Entities::LinkEntity
+        else
+        end
       end
     end
 
@@ -47,30 +50,33 @@ class Supurl::V0::LinksController < Grape::API
       requires :comment, type: String
     end
     post do
-      raw_tags = params[:tags]
-      link = Link.create!({
-        title:   params[:title],
-        href:    params[:href],
-        comment: params[:comment]
-      })
+      if signed_in?
+        raw_tags = params[:tags]
+        link = Link.create!({
+          title:   params[:title],
+          href:    params[:href],
+          comment: params[:comment]
+        })
 
-      raw_tags.each do |t|
-        tag = Tag.where(shortcut: t.downcase).first
+        raw_tags.each do |t|
+          tag = Tag.where(shortcut: t.downcase).first
 
-        unless tag
-          tag = Tag.create!({
-                  display_name: t,
-                  shortcut: t.downcase
-                })
+          unless tag
+            tag = Tag.create!({
+                    display_name: t,
+                    shortcut: t.downcase
+                  })
+          end
+
+          taggable = Taggable.create({
+                       tag_id: tag.id,
+                       link_id: link.id
+                     })
         end
 
-        taggable = Taggable.create({
-                     tag_id: tag.id,
-                     link_id: link.id
-                   })
+        link.save
+      else
       end
-
-      link.save
     end
 
     desc "Update: Update a link"
@@ -103,8 +109,11 @@ class Supurl::V0::LinksController < Grape::API
       requires :id, type: Integer
     end
     delete ':id' do
-      link = Link.find(params[:id])
-      link.destroy
+      if signed_in?
+        link = Link.find(params[:id])
+        link.destroy
+      else
+      end
     end
 
   end
