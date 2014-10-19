@@ -30,6 +30,18 @@ class Supurl::V0::UsersController < Grape::API
       end
     end
 
+    params do
+      requires :id,    type: Integer
+      requires :email, type: String
+    end
+    route_param :id do
+      desc 'settings/account: update email'
+      put :account do
+        user = User.find(params[:id])
+
+        user.update_attribute('email', params[:email])
+      end
+    end
   end
 
 end
