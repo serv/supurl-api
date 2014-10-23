@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  attr_accessor :skip_password_validation
+
   before_create :create_remember_token
 
   has_secure_password
@@ -9,7 +11,7 @@ class User < ActiveRecord::Base
   validates :email,    presence: true
 
   validates :username, length: { minimum: 3 }
-  validates :password, length: { minimum: 5 }
+  validates :password, length: { minimum: 5 }, unless: :skip_password_validation
 
   validates :username, uniqueness: true
   validates :email,    uniqueness: true

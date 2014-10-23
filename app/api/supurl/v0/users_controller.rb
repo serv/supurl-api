@@ -38,8 +38,10 @@ class Supurl::V0::UsersController < Grape::API
       desc 'settings/account: update email'
       put :account do
         user = User.find(params[:id])
-
-        user.update_attribute('email', params[:email])
+        user.email = params[:email]
+        user.skip_password_validation = true
+        debugger
+        user.save
       end
     end
   end
