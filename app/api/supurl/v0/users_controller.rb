@@ -31,6 +31,8 @@ class Supurl::V0::UsersController < Grape::API
     end
 
     params do
+      # TODO: need to update params for /password
+      # https://github.com/intridea/grape#parameters
       requires :id,    type: Integer
       requires :email, type: String
     end
@@ -42,7 +44,14 @@ class Supurl::V0::UsersController < Grape::API
         user.skip_password_validation = true
         user.save!
       end
+
+      put :password do
+        user = User.find(params[:id])
+      end
     end
+
+
   end
+
 
 end
