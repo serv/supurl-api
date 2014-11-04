@@ -31,10 +31,8 @@ class Supurl::V0::UsersController < Grape::API
     end
 
     params do
-      # TODO: need to update params for /password
-      # https://github.com/intridea/grape#parameters
-      requires :id,    type: Integer
-      requires :email, type: String
+      optional :id,    type: Integer
+      optional :email, type: String
     end
     route_param :id do
       desc 'settings/account: update email'
