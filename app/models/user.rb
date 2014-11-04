@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
-  attr_accessor :skip_password_validation
+  attr_accessor :skip_password_validation,
+                :skip_username_validation,
+                :skip_email_validation
 
   before_create :create_remember_token
 
@@ -7,8 +9,8 @@ class User < ActiveRecord::Base
 
   has_many :clients
 
-  validates :username, presence: true
-  validates :email,    presence: true
+  validates :username, presence: true, unless: :skip_username_validation
+  validates :email,    presence: true, unless: :skip_email_validation
 
   validates :username, length: { minimum: 3 }
   validates :password, length: { minimum: 5 }, unless: :skip_password_validation

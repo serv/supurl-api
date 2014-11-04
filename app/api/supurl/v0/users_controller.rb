@@ -54,6 +54,16 @@ class Supurl::V0::UsersController < Grape::API
       desc 'settings/password: update email'
       put :password do
         user = User.find(params[:id])
+
+        if user.authenticate(params[:current_password])
+          user.password = params[:password]
+          user.password_confirmation = params[:password_confirmation]
+          user.skip_username_validation = true
+          user.skip_email_validation = true
+          user.save!
+        else
+
+        end
       end
     end
 
