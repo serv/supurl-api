@@ -31,8 +31,16 @@ class Supurl::V0::UsersController < Grape::API
     end
 
     params do
+
+      # account
       optional :id,    type: Integer
       optional :email, type: String
+
+      # password
+      optional :id,                    type: Integer
+      optional :current_password,      type: String
+      optional :password,              type: String
+      optional :password_confirmation, type: String
     end
     route_param :id do
       desc 'settings/account: update email'
@@ -43,11 +51,11 @@ class Supurl::V0::UsersController < Grape::API
         user.save!
       end
 
+      desc 'settings/password: update email'
       put :password do
         user = User.find(params[:id])
       end
     end
-
 
   end
 
