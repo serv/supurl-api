@@ -62,7 +62,10 @@ class Supurl::V0::UsersController < Grape::API
           user.skip_email_validation = true
           user.save!
         else
-
+          error!({
+            name: :current_password,
+            message: 'The current password is wrong. Please try again.'
+          })
         end
       end
     end
