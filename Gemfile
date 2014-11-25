@@ -33,6 +33,9 @@ group :development do
   gem "thin", "~> 1.6.2"
   gem "better_errors", "~> 1.1.0"
   gem 'faker', '~> 1.4.2'
+
+  # Deployment
+  gem 'capistrano', '~> 3.2.0'
 end
 
 group :test do
@@ -45,4 +48,6 @@ group :test do
 end
 
 group :production do
+  # Rails server
+  gem 'unicorn', '~> 4.8.3'
 end

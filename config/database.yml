@@ -81,5 +81,5 @@ test:
 production:
   <<: *default
   database: supurl-api_production
-  username: supurl-api
-  password: <%= ENV['SUPURL-API_DATABASE_PASSWORD'] %>
+  username: <%= CONFIG_VARIABLES['SUPURL_API_DATABASE_USERNAME'] %>
+  password: <%= CONFIG_VARIABLES['SUPURL_API_DATABASE_PASSWORD'] %>
