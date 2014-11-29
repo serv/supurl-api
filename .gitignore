@@ -36,3 +36,6 @@ Icon
 .AppleDesktop
 Network Trash Folder
 Temporary Items
+
+# Rails
+config/secret.yml
