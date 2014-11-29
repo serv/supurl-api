@@ -1,5 +1,3 @@
-YAML.load_file("/etc/supurl/config_variables.yml")['config_variables']
-
 # PostgreSQL. Versions 8.2 and up are supported.
 #
 # Install the pg driver:
@@ -83,5 +81,5 @@ test:
 production:
   <<: *default
   database: supurl-api_production
-  username: <%= CONFIG_VARIABLES['SUPURL_API_DATABASE_USERNAME'] %>
-  password: <%= CONFIG_VARIABLES['SUPURL_API_DATABASE_PASSWORD'] %>
+  username: <%= ENV['SUPURL_API_DATABASE_USERNAME'] %>
+  password: <%= ENV['SUPURL_API_DATABASE_PASSWORD'] %>
