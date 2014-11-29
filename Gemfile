@@ -48,6 +48,4 @@ group :test do
 end
 
 group :production do
-  # Rails server
-  gem 'unicorn', '~> 4.8.3'
 end
